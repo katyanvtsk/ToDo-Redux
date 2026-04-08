@@ -1,7 +1,11 @@
-import { useState, memo } from "react";
+import { useState, memo, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { editTask, isDoneCheck, deleteTask } from "./redux/actions/taskActions";
 
-const Task = ({ task, deleteTask, isDoneCheck, editTask }) => {
+const Task = ({ task }) => {
   console.log("render Task");
+
+  const dispatch = useDispatch();
 
   const [isEdit, setIsEdit] = useState(false);
   const [textEdit, setTextEdit] = useState(task.title);
@@ -14,7 +18,7 @@ const Task = ({ task, deleteTask, isDoneCheck, editTask }) => {
       return;
     }
     if (trimText !== task.title) {
-      editTask(task.id, trimText);
+      dispatch(editTask(task.id, trimText));
     }
     setIsEdit(!isEdit);
     setError(!trimText);
@@ -46,13 +50,17 @@ const Task = ({ task, deleteTask, isDoneCheck, editTask }) => {
     }
   };
 
+  const handleIsDone = () => {
+    dispatch(isDoneCheck(task.id));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTask(task.id));
+  };
+
   return (
     <div className="task">
-      <input
-        type="checkbox"
-        checked={task.isDone}
-        onChange={() => isDoneCheck(task.id)}
-      />
+      <input type="checkbox" checked={task.isDone} onChange={handleIsDone} />
 
       {isEdit ? (
         <input
@@ -65,7 +73,7 @@ const Task = ({ task, deleteTask, isDoneCheck, editTask }) => {
       )}
 
       <button onClick={handleMain}>{isEdit ? "💾" : "✏️"}</button>
-      <button onClick={() => deleteTask(task.id)}>🗑️</button>
+      <button onClick={handleDelete}>🗑️</button>
 
       {error && <p className="errorText">❌ Название не может быть пустым!</p>}
     </div>

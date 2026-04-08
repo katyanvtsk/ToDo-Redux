@@ -1,13 +1,17 @@
 import { useState, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeTask, addTask, clearInput } from "./redux/actions/inputActions";
 
-const InputText = ({ setTasks }) => {
+const InputText = () => {
   console.log("render InputText");
-  const [text, setText] = useState("");
+
+  const text = useSelector((store) => store.inputText.text);
+  const dispatch = useDispatch();
   const [textError, setTextError] = useState(false);
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setText(value);
+    dispatch(changeTask(value));
 
     if (value.trim().length > 0) {
       setTextError(false);
@@ -21,11 +25,8 @@ const InputText = ({ setTasks }) => {
       return;
     }
 
-    setTasks((tasks) => [
-      ...tasks,
-      { id: crypto.randomUUID(), title: text, isDone: false },
-    ]);
-    setText("");
+    dispatch(addTask(text));
+    dispatch(clearInput());
     setTextError(false);
   };
 

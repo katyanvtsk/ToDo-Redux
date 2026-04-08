@@ -1,14 +1,21 @@
-import { useState, memo } from "react";
+import { memo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-const CountTask = ({ tasks, clearTasks }) => {
-  console.log("render CountTask");
+const CountTask = () => {
+  const tasks = useSelector((store) => store.tasks.tasks);
+  const dispatch = useDispatch();
+
   const notIsDone = tasks.filter((item) => !item.isDone);
   const count = notIsDone.length;
+
+  const handleClear = () => {
+    dispatch({ type: "clearTasks" });
+  };
 
   return (
     <div className="count-container">
       <p>Осталось выполнить: {count}</p>
-      <button onClick={clearTasks}>Очистить выполненные</button>
+      <button onClick={handleClear}>Очистить выполненные</button>
     </div>
   );
 };
