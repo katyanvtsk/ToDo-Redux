@@ -1,6 +1,7 @@
 import { useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeTask, addTask, clearInput } from "./redux/actions/inputActions";
+import { change, clearInput } from "./redux/inputTextSlice";
+import { addTask } from "./redux/tasksSlice";
 
 const InputText = () => {
   console.log("render InputText");
@@ -11,7 +12,7 @@ const InputText = () => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    dispatch(changeTask(value));
+    dispatch(change(value));
 
     if (value.trim().length > 0) {
       setTextError(false);

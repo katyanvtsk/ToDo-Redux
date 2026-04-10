@@ -1,6 +1,6 @@
-import { useState, memo, useCallback } from "react";
+import { useState, memo } from "react";
 import { useDispatch } from "react-redux";
-import { editTask, isDoneCheck, deleteTask } from "./redux/actions/taskActions";
+import { deleteTask, isDoneCheck, editTask } from "./redux/tasksSlice";
 
 const Task = ({ task }) => {
   console.log("render Task");
@@ -18,7 +18,7 @@ const Task = ({ task }) => {
       return;
     }
     if (trimText !== task.title) {
-      dispatch(editTask(task.id, trimText));
+      dispatch(editTask({ id: task.id, title: trimText }));
     }
     setIsEdit(!isEdit);
     setError(!trimText);

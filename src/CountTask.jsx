@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { clearTasks } from "./redux/tasksSlice";
 
 const CountTask = () => {
   const tasks = useSelector((store) => store.tasks.tasks);
@@ -9,7 +10,7 @@ const CountTask = () => {
   const count = notIsDone.length;
 
   const handleClear = () => {
-    dispatch({ type: "clearTasks" });
+    dispatch(clearTasks());
   };
 
   return (

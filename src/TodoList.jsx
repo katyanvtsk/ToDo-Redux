@@ -1,7 +1,7 @@
 import { memo } from "react";
 import Task from "./Task";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from "./redux/actions/buttonActions";
+import { setFilter } from "./redux/filterSlice";
 
 const TodoList = () => {
   console.log("render TodoList");
